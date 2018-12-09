@@ -1,14 +1,4 @@
-import {
-  GET_SAVED_LOCATIONS,
-  ADD_SAVED_LOCATION,
-  DELETE_SAVED_LOCATION
-} from "./types";
-
-export const getSavedLocations = () => {
-  return {
-    type: GET_SAVED_LOCATIONS
-  };
-};
+import { ADD_SAVED_LOCATION, DELETE_SAVED_LOCATION } from "./types";
 
 export const addSavedLocation = location => {
   return {

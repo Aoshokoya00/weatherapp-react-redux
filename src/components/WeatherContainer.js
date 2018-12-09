@@ -65,8 +65,8 @@ class WeatherContainer extends Component {
   handleRemoveLocation = (location, event) => {
     event.preventDefault();
     // remove location from saved locations in db
-    this.props.deleteSavedLocation(location);
     // remove conditions for that locaton from state
+    this.props.deleteSavedLocation(location);
     this.props.deleteSavedWeather(location);
   };
 
@@ -97,6 +97,7 @@ class WeatherContainer extends Component {
             key="0"
             weather={this.props.searchedweather}
             handleSaveLocation={this.handleSaveLocation}
+            celsius={this.props.celsius}
           />
           {this.props.savedweather.map((condition, index) => {
             return (
@@ -105,6 +106,7 @@ class WeatherContainer extends Component {
                 weather={condition}
                 isSaved={true}
                 handleRemoveLocation={this.handleRemoveLocation}
+                celsius={this.props.celsius}
               />
             );
           })}
@@ -117,7 +119,8 @@ class WeatherContainer extends Component {
 const mapStateToProps = state => ({
   savedlocations: state.savedlocations.savedlocations,
   searchedweather: state.weather.searchedweather,
-  savedweather: state.weather.savedweather
+  savedweather: state.weather.savedweather,
+  celsius: state.weather.celsius
 });
 
 export default connect(

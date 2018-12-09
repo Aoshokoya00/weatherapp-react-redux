@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 
 class WeatherCard extends Component {
-  convertTemp(temp, scale, nosign) {
-    if (scale === "C") {
-      let S = nosign ? "" : "C";
-      return Math.ceil(temp - 273.15) + String.fromCharCode(176) + S;
+  convertTemp(temp, celsius) {
+    if (celsius) {
+      return Math.ceil(temp - 273.15) + String.fromCharCode(176) + "C";
     } else {
-      let S = nosign ? "" : "F";
       return (
-        Math.ceil((9 / 5) * (temp - 273) + 32) + String.fromCharCode(176) + S
+        Math.ceil((9 / 5) * (temp - 273) + 32) + String.fromCharCode(176) + "F"
       );
     }
   }
@@ -65,23 +63,25 @@ class WeatherCard extends Component {
                     )}`}
                   />
                 </div>
-                <div className="col-6">
+                <div className="temp col-6">
                   <h1>
                     <span className="highlight">
-                      {this.convertTemp(cc.main.temp)}
+                      {this.convertTemp(cc.main.temp, this.props.celsius)}
                     </span>
                   </h1>
-                  <p>
-                    hi:
-                    <span className="highlight">
-                      {` ${this.convertTemp(cc.main.temp_max)}`}
-                    </span>
-                    <span> </span>
-                    lo:
-                    <span className="highlight-secondary">
-                      {` ${this.convertTemp(cc.main.temp_min)}`}
-                    </span>
-                  </p>
+                  <span className="highlight">
+                    {`${this.convertTemp(
+                      cc.main.temp_max,
+                      this.props.celsius
+                    )}`}
+                  </span>
+                  <span> / </span>
+                  <span className="highlight-secondary">
+                    {`${this.convertTemp(
+                      cc.main.temp_min,
+                      this.props.celsius
+                    )}`}
+                  </span>
                 </div>
               </div>
             </div>

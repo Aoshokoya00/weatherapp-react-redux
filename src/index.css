@@ -3,7 +3,7 @@ body {
 }
 
 .navbar {
-  padding: .25rem .5rem;
+  padding: .15rem .3rem;
 }
 
 .navbar-brand {
@@ -11,7 +11,7 @@ body {
 }
 
 .navbar-brand {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 input {
@@ -38,6 +38,16 @@ div.invalid {
   color: #dc3545;
 }
 
+.react-toggle {
+  margin: .5em 0 0 .5em;
+}
+
+.temp-scale-label {
+  color: white;
+  display: inline-block;
+  margin: .5em 0 0 .5em;
+}
+
 .card {
   width: 31%; /* 48% - 2 col, 31% - 3 col */
   float: left;
@@ -56,17 +66,12 @@ div.invalid {
 }
 
 .card h1 {
-  font-size: 3.8rem;
+  font-size: 3.3rem;
   font-weight: 500;
 }
 
 .card h4 {
   font-size: 2rem;
-}
-
-.card p {
-  font-size: 1.1rem; /* 1.2rem - 2 col, */
-  color: #ccc;
 }
 
 .card ul {
@@ -77,8 +82,13 @@ div.invalid {
   list-style-type: none;
 }
 
-.highlight { color: #05E177; }
-.highlight-secondary { color: #2D9DDD}
+.card .temp > span {
+  font-size: 1.4rem;
+  color: #ccc;
+}
+
+.highlight { color: #05E177 !important; }
+.highlight-secondary { color: #2D9DDD !important; }
 
 .weather-icon {
   width: 150px;

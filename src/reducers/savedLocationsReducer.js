@@ -1,7 +1,7 @@
 import { ADD_SAVED_LOCATION, DELETE_SAVED_LOCATION } from "../actions/types";
 
 const initialState = {
-  savedlocations: ["Seattle", "San Francisco"]
+  savedlocations: []
 };
 
 export default function(state = initialState, action) {

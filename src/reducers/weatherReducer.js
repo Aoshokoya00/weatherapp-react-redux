@@ -3,12 +3,14 @@ import {
   DELETE_SEARCHED_WEATHER,
   SET_SAVED_WEATHER,
   DELETE_SAVED_WEATHER,
-  SAVE_WEATHER_LOCATION
+  SAVE_WEATHER_LOCATION,
+  TOGGLE_TEMP_SCALE
 } from "../actions/types";
 
 const initialState = {
   searchedweather: {},
-  savedweather: []
+  savedweather: [],
+  celsius: false
 };
 
 export default function(state = initialState, action) {
@@ -42,6 +44,11 @@ export default function(state = initialState, action) {
         ...state,
         searchedweather: {},
         savedweather: [...state.savedweather, state.searchedweather]
+      };
+    case TOGGLE_TEMP_SCALE:
+      return {
+        ...state,
+        celsius: !state.celsius
       };
     default:
       return state;
