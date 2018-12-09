@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Header title="Weather Cards" />
+          <Header title="weather app" />
           <WeatherContainer />
         </div>
       </Provider>

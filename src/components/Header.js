@@ -9,7 +9,7 @@ const Header = props => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <div className="float-left">
-          <img src="/globe1a.png" alt="logo" />
+          <img src="/globe_b.png" alt="logo" />
           <a href="/" className="navbar-brand align-middle">
             {props.title}
           </a>

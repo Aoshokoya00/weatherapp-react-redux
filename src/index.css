@@ -3,15 +3,15 @@ body {
 }
 
 .navbar {
-  padding: .15rem .3rem;
+  padding: .05rem .1rem;
 }
 
 .navbar-brand {
-  padding: .25rem 1rem;
+  padding: 0 1rem .5rem 1rem;
 }
 
 .navbar-brand {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 input {
@@ -80,6 +80,11 @@ div.invalid {
 
 .card ul li {
   list-style-type: none;
+}
+
+.card ul.condition-details {
+  font-size: .9rem;
+  margin: .5em 0 0 0;
 }
 
 .card .temp > span {
