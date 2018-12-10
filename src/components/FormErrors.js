@@ -2,8 +2,9 @@ import React from "react";
 
 function FormErrors(props) {
   if (
-    props.registrationerrors.blankfield ||
-    props.registrationerrors.passwordmatch
+    props.registrationerrors &&
+    (props.registrationerrors.blankfield ||
+      props.registrationerrors.passwordmatch)
   ) {
     return (
       <div className="error container mt-2 invalid">
