@@ -14,7 +14,11 @@ body {
   font-size: 2rem;
 }
 
-input {
+h2, label {
+  color: #343A40;
+}
+
+input.weather-search {
   min-width: 400px;
   padding-left: 70px !important;
   background-image: url('./images/mg1.png');

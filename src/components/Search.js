@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import SearchError from "./SearchError";
+import FormErrors from "./FormErrors";
 
 class Search extends Component {
   state = {
     searchquery: "",
-    validationerrors: false
+    searchvalidationerror: false
   };
 
   validateForm = event => {
     if (!event.target[0].value) {
       event.target[0].classList.add("invalid");
-      this.setState({ validationerrors: true });
+      this.setState({ searchvalidationerror: true });
     } else {
       event.target[0].classList.remove("invalid");
-      this.setState({ validationerrors: false });
+      this.setState({ searchvalidationerror: false });
     }
   };
 
@@ -31,17 +31,17 @@ class Search extends Component {
         <form className="form-inline" onSubmit={this.handleClick}>
           <input
             type="text"
-            className="form-control form-control-lg"
+            className="form-control form-control-lg weather-search"
             placeholder="Enter search location (city or zip)"
             value={this.state.searchquery}
             onChange={this.onSearchChange}
           />
           <button type="submit" className="btn btn-primary btn-lg ml-3">
-            Get weather
+            get weather
           </button>
         </form>
-        <SearchError
-          validationerrors={this.state.validationerrors}
+        <FormErrors
+          searchvalidationerror={this.state.searchvalidationerror}
           apierrors={this.props.apierrors}
         />
       </React.Fragment>

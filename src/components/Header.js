@@ -1,7 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
-import { connect } from "react-redux";
 import { toggleTempScale } from "../actions/weatherActions";
 
 const Header = props => {
@@ -18,17 +18,17 @@ const Header = props => {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <a href="/" className="nav-link">
-                Weather
+                weather
               </a>
             </li>
             <li className="nav-item">
-              <a href="/" className="nav-link">
-                Sign Up
+              <a href="/register" className="nav-link">
+                register
               </a>
             </li>
             <li className="nav-item">
-              <a href="/" className="nav-link">
-                Login
+              <a href="/login" className="nav-link">
+                log in
               </a>
             </li>
             <li className="nav-item">

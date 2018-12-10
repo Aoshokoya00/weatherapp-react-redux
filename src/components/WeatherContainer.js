@@ -84,7 +84,7 @@ class WeatherContainer extends Component {
   render() {
     return (
       <div>
-        <div className="container mt-5">
+        <div className="mt-5">
           <div className="row justify-content-center">
             <Search
               getWeather={this.handleGetWeather}
@@ -92,7 +92,7 @@ class WeatherContainer extends Component {
             />
           </div>
         </div>
-        <div className="container mt-5">
+        <div className="mt-5">
           <WeatherCard
             key="0"
             weather={this.props.searchedweather}
