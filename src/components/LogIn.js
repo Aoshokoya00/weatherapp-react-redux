@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import { logIn } from "../actions/authActions";
 
 class LogIn extends Component {
   state = {
@@ -49,10 +52,15 @@ class LogIn extends Component {
     }
   };
 
-  handleClick = event => {
+  handleSubmit = async event => {
     event.preventDefault();
     this.validateForm(event);
-    console.log("Call AWS Cognito api");
+    try {
+      await Auth.signIn(this.state.email, this.state.password);
+      alert("Logged in");
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   onInputChange = event => {
@@ -66,8 +74,9 @@ class LogIn extends Component {
     return (
       <div className="mt-5">
         <h2>Log in</h2>
+        <h3>isAuthenticated :: {this.props.isAuthenticated}</h3>
         <FormErrors registrationerrors={this.state.errors} />
-        <form className="col-6 mt-4" onSubmit={this.handleClick}>
+        <form className="col-6 mt-4" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
             <input
@@ -100,4 +109,11 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  logIn
+)(LogIn);

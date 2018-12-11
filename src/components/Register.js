@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
 
 class Register extends Component {
   state = {
+    username: "",
     firstname: "",
     lastname: "",
     email: "",
@@ -16,6 +18,7 @@ class Register extends Component {
 
   validateForm = event => {
     const {
+      username,
       firstname,
       lastname,
       email,
@@ -38,6 +41,13 @@ class Register extends Component {
       }
     });
 
+    if (username === "") {
+      this.setState({
+        errors: { ...this.state.errors, blankfield: true }
+      });
+      document.getElementById("username").classList.add("invalid");
+      return;
+    }
     if (firstname === "") {
       this.setState({
         errors: { ...this.state.errors, blankfield: true }
@@ -105,27 +115,41 @@ class Register extends Component {
         <h2>Register</h2>
         <FormErrors registrationerrors={this.state.errors} />
         <form className="col-6 mt-4" onSubmit={this.handleClick}>
+          <div className="form-group row">
+            <div className="col">
+              <label htmlFor="firstname">First name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="firstname"
+                aria-describedby="firstNameHelp"
+                placeholder="Enter first name"
+                value={this.state.firstname}
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div className="col">
+              <label htmlFor="lastname">Last name</label>
+              <input
+                type="lastname"
+                className="form-control"
+                id="lastname"
+                aria-describedby="lastNameHelp"
+                placeholder="Enter last name"
+                value={this.state.lastname}
+                onChange={this.onInputChange}
+              />
+            </div>
+          </div>
           <div className="form-group">
-            <label htmlFor="firstname">First name</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
               className="form-control"
-              id="firstname"
-              aria-describedby="firstNameHelp"
-              placeholder="Enter first name"
-              value={this.state.firstname}
-              onChange={this.onInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastname">Last name</label>
-            <input
-              type="lastname"
-              className="form-control"
-              id="lastname"
-              aria-describedby="lastNameHelp"
-              placeholder="Enter last name"
-              value={this.state.lastname}
+              id="username"
+              aria-describedby="userNameHelp"
+              placeholder="Enter username"
+              value={this.state.username}
               onChange={this.onInputChange}
             />
           </div>
@@ -141,27 +165,29 @@ class Register extends Component {
               onChange={this.onInputChange}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.onInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="passwordconfirm">Confirm password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmpassword"
-              placeholder="Confirm password"
-              value={this.state.confirmpassword}
-              onChange={this.onInputChange}
-            />
+          <div className="form-group row">
+            <div className="col">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div className="col">
+              <label htmlFor="passwordconfirm">Confirm password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="confirmpassword"
+                placeholder="Confirm password"
+                value={this.state.confirmpassword}
+                onChange={this.onInputChange}
+              />
+            </div>
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
