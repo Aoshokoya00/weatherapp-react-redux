@@ -5,22 +5,19 @@ import FormErrors from "./FormErrors";
 import { logIn } from "../actions/authActions";
 
 class LogIn extends Component {
-  state = {
-    email: "",
-    password: "",
-    errors: {
-      blankfield: false
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      errors: {
+        blankfield: false
+      }
+    };
+  }
 
   validateForm = event => {
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      confirmpassword
-    } = this.state;
+    const { email, password } = this.state;
 
     // clear all error messages
     const inputs = document.getElementsByClassName("invalid");
@@ -50,14 +47,20 @@ class LogIn extends Component {
       document.getElementById("password").classList.add("invalid");
       return;
     }
+    return;
   };
 
   handleSubmit = async event => {
     event.preventDefault();
     this.validateForm(event);
     try {
-      await Auth.signIn(this.state.email, this.state.password);
-      alert("Logged in");
+      const authenticatedUser = await Auth.signIn(
+        this.state.email,
+        this.state.password
+      );
+      console.log(authenticatedUser);
+      this.props.logIn();
+      this.props.history.push("/");
     } catch (e) {
       alert(e.message);
     }
@@ -74,7 +77,6 @@ class LogIn extends Component {
     return (
       <div className="mt-5">
         <h2>Log in</h2>
-        <h3>isAuthenticated :: {this.props.isAuthenticated}</h3>
         <FormErrors registrationerrors={this.state.errors} />
         <form className="col-6 mt-4" onSubmit={this.handleSubmit}>
           <div className="form-group">
@@ -90,7 +92,7 @@ class LogIn extends Component {
             />
           </div>
           <div className="form-group">
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               className="form-control"
@@ -115,5 +117,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  logIn
+  { logIn }
 )(LogIn);

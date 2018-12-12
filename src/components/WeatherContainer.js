@@ -15,8 +15,8 @@ import {
 } from "../actions/weatherActions";
 
 class WeatherContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       apierrors: false
     };

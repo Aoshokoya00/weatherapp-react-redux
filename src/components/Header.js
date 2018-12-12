@@ -1,10 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Auth } from "aws-amplify";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
+import { logOut } from "../actions/authActions";
 import { toggleTempScale } from "../actions/weatherActions";
 
 const Header = props => {
+  const handleLogOut = event => {
+    event.preventDefault();
+    props.logOut();
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -26,11 +33,19 @@ const Header = props => {
                 register
               </a>
             </li>
-            <li className="nav-item">
-              <a href="/login" className="nav-link">
-                log in
-              </a>
-            </li>
+            {props.isAuthenticated ? (
+              <li className="nav-item">
+                <a href="/" onClick={handleLogOut} className="nav-link">
+                  log out
+                </a>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <a href="/login" className="nav-link">
+                  log in
+                </a>
+              </li>
+            )}
             <li className="nav-item">
               <Toggle
                 defaultChecked={!props.celsius}
@@ -49,10 +64,11 @@ const Header = props => {
 };
 
 const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
   celsius: state.weather.celsius
 });
 
 export default connect(
   mapStateToProps,
-  { toggleTempScale }
+  { logOut, toggleTempScale }
 )(Header);
