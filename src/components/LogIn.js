@@ -16,6 +16,16 @@ class LogIn extends Component {
     };
   }
 
+  // test function
+  getSession = () => {
+    Auth.currentAuthenticatedUser({})
+      .then(user => console.log("user data" + user))
+      .catch(err => console.log(err));
+    Auth.currentSession()
+      .then(data => console.log("session data" + data))
+      .catch(err => console.log("session error" + err));
+  };
+
   validateForm = event => {
     const { email, password } = this.state;
 
@@ -61,8 +71,9 @@ class LogIn extends Component {
       console.log(authenticatedUser);
       this.props.logIn();
       this.props.history.push("/");
-    } catch (e) {
-      alert(e.message);
+      this.getSession();
+    } catch (error) {
+      console.loh(error.message);
     }
   };
 

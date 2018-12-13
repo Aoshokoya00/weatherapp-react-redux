@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT } from "./types";
+import { LOG_IN, LOG_OUT, LOADING_CURRENT_SESSION } from "./types";
 
 export const logIn = () => {
   return {
@@ -9,5 +9,11 @@ export const logIn = () => {
 export const logOut = () => {
   return {
     type: LOG_OUT
+  };
+};
+
+export const loadingCurrentSession = () => {
+  return {
+    type: LOADING_CURRENT_SESSION
   };
 };

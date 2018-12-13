@@ -1,7 +1,8 @@
-import { LOG_IN, LOG_OUT } from "../actions/types";
+import { LOG_IN, LOG_OUT, LOADING_CURRENT_SESSION } from "../actions/types";
 
 const initialState = {
-  isAuthenticated: false
+  isAuthenticated: false,
+  isSessionLoading: true
 };
 
 export default function(state = initialState, action) {
@@ -15,6 +16,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: false
+      };
+    case LOADING_CURRENT_SESSION:
+      return {
+        ...state,
+        isSessionLoading: false
       };
     default:
       return state;

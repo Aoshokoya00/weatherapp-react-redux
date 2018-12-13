@@ -7,9 +7,15 @@ import { logOut } from "../actions/authActions";
 import { toggleTempScale } from "../actions/weatherActions";
 
 const Header = props => {
-  const handleLogOut = event => {
+  const handleLogOut = async event => {
     event.preventDefault();
-    props.logOut();
+    try {
+      const userSignOutData = await Auth.signOut();
+      console.log(userSignOutData);
+      props.logOut();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
