@@ -11,20 +11,11 @@ class LogIn extends Component {
       email: "",
       password: "",
       errors: {
+        cognito: null,
         blankfield: false
       }
     };
   }
-
-  // test function
-  getSession = () => {
-    Auth.currentAuthenticatedUser({})
-      .then(user => console.log("user data" + user))
-      .catch(err => console.log(err));
-    Auth.currentSession()
-      .then(data => console.log("session data" + data))
-      .catch(err => console.log("session error" + err));
-  };
 
   validateForm = event => {
     const { email, password } = this.state;
@@ -39,6 +30,7 @@ class LogIn extends Component {
 
     this.setState({
       errors: {
+        cognito: null,
         blankfield: false
       }
     });
@@ -64,16 +56,18 @@ class LogIn extends Component {
     event.preventDefault();
     this.validateForm(event);
     try {
-      const authenticatedUser = await Auth.signIn(
-        this.state.email,
-        this.state.password
-      );
-      console.log(authenticatedUser);
+      const user = await Auth.signIn(this.state.email, this.state.password);
       this.props.logIn();
-      this.props.history.push("/");
-      this.getSession();
+      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        this.props.history.push("/changepassword");
+      } else {
+        this.props.history.push("/");
+      }
     } catch (error) {
-      console.loh(error.message);
+      this.setState({
+        errors: { ...this.state.errors, cognito: error }
+      });
+      console.log(error.message);
     }
   };
 
@@ -88,7 +82,7 @@ class LogIn extends Component {
     return (
       <div className="mt-5">
         <h2>Log in</h2>
-        <FormErrors registrationerrors={this.state.errors} />
+        <FormErrors formerrors={this.state.errors} />
         <form className="col-6 mt-4" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email address</label>

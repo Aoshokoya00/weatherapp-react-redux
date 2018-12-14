@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import { logIn, loadingCurrentSession } from "../actions/authActions";
 import Header from "./Header";
 import Register from "./Register";
 import LogIn from "./LogIn";
+import ChangePassword from "./ChangePassword";
 import WeatherContainer from "./WeatherContainer";
 
 class RootContainer extends Component {
@@ -14,9 +16,9 @@ class RootContainer extends Component {
       await Auth.currentSession();
       this.props.logIn();
     } catch (error) {
-      //if (error !== "No current user") {
-      alert(error);
-      //}
+      if (error !== "No current user") {
+        alert(error);
+      }
     }
     this.props.loadingCurrentSession();
   }
@@ -31,6 +33,7 @@ class RootContainer extends Component {
               <Route exact path="/weather" component={WeatherContainer} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={LogIn} />
+              <Route exact path="/changepassword" component={ChangePassword} />
             </Switch>
           </div>
         </div>
@@ -43,7 +46,9 @@ const mapStateToProps = state => ({
   loadingCurrentSession: state.auth.isSessionLoading
 });
 
-export default connect(
-  mapStateToProps,
-  { logIn, loadingCurrentSession }
-)(RootContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logIn, loadingCurrentSession }
+  )(RootContainer)
+);

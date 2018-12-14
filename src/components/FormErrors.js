@@ -2,19 +2,18 @@ import React from "react";
 
 function FormErrors(props) {
   if (
-    props.registrationerrors &&
-    (props.registrationerrors.blankfield ||
-      props.registrationerrors.passwordmatch)
+    props.formerrors &&
+    (props.formerrors.blankfield || props.formerrors.passwordmatch)
   ) {
     return (
       <div className="error container mt-2 invalid">
         <div className="row justify-content-center">
-          {props.registrationerrors.passwordmatch
+          {props.formerrors.passwordmatch
             ? "Password value does not match confirm password value"
             : ""}
         </div>
         <div className="row justify-content-center">
-          {props.registrationerrors.blankfield ? "All fields are required" : ""}
+          {props.formerrors.blankfield ? "All fields are required" : ""}
         </div>
       </div>
     );
@@ -28,6 +27,14 @@ function FormErrors(props) {
     return (
       <div className="error container mt-2 invalid">
         <div className="row justify-content-center">{props.apierrors}</div>
+      </div>
+    );
+  } else if (props.formerrors && props.formerrors.cognito) {
+    return (
+      <div className="error container mt-2 invalid">
+        <div className="row justify-content-center">
+          {props.formerrors.cognito.message}
+        </div>
       </div>
     );
   } else {
