@@ -11,6 +11,7 @@ class Register extends Component {
     password: "",
     confirmpassword: "",
     errors: {
+      cognito: null,
       blankfield: false,
       passwordmatch: false
     }
@@ -36,6 +37,7 @@ class Register extends Component {
 
     this.setState({
       errors: {
+        cognito: null,
         blankfield: false,
         passwordmatch: false
       }
@@ -96,10 +98,32 @@ class Register extends Component {
     }
   };
 
-  handleClick = event => {
+  handleClick = async event => {
     event.preventDefault();
     this.validateForm(event);
-    console.log("Call AWS Cognito api");
+
+    const { username, firstname, lastname, email, password } = this.state;
+
+    try {
+      const signUpResponse = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email: email,
+          given_name: firstname,
+          family_name: lastname
+        },
+        validationData: [] //optional
+      });
+      console.log(signUpResponse);
+    } catch (error) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: error
+        }
+      });
+    }
   };
 
   onInputChange = event => {
@@ -113,7 +137,7 @@ class Register extends Component {
     return (
       <div className="mt-5">
         <h2>Register</h2>
-        <FormErrors registrationerrors={this.state.errors} />
+        <FormErrors formerrors={this.state.errors} />
         <form className="col-6 mt-4" onSubmit={this.handleClick}>
           <div className="form-group row">
             <div className="col">

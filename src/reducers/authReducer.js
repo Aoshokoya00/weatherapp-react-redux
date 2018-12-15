@@ -1,8 +1,14 @@
-import { LOG_IN, LOG_OUT, LOADING_CURRENT_SESSION } from "../actions/types";
+import {
+  LOG_IN,
+  LOG_OUT,
+  SET_USER_NAME,
+  LOADING_CURRENT_SESSION
+} from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
-  isSessionLoading: true
+  isSessionLoading: true,
+  username: ""
 };
 
 export default function(state = initialState, action) {
@@ -16,6 +22,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: false
+      };
+    case SET_USER_NAME:
+      return {
+        ...state,
+        username: action.payload
       };
     case LOADING_CURRENT_SESSION:
       return {
