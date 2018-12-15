@@ -1,6 +1,6 @@
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
-export const SET_USER_NAME = "SET_USER_NAME";
+export const SET_USER_DATA = "SET_USER_DATA";
 export const LOADING_CURRENT_SESSION = "LOADING_CURRENT_SESSION";
 
 export const GET_SAVED_LOCATIONS = "GET_SAVED_LOCATIONS";

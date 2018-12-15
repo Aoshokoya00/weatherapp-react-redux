@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
-import { logIn, setUserName } from "../actions/authActions";
+import { logIn, setUserData } from "../actions/authActions";
 
 class LogIn extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class LogIn extends Component {
     try {
       const user = await Auth.signIn(this.state.email, this.state.password);
       this.props.logIn();
-      this.props.setUserName(user.username);
+      this.props.setUserData(user);
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
         this.props.history.push("/changepassword");
       } else {
@@ -123,5 +123,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logIn, setUserName }
+  { logIn, setUserData }
 )(LogIn);

@@ -147,3 +147,43 @@ div.invalid {
 .weather-icon.noicon {
   background-image: none;
 }
+
+.jumbotron {
+  opacity: .8;
+  border-radius: 8px;
+  padding-top: 38px;
+  padding-bottom: 38px;
+}
+
+.jumbotron .h1, .jumbotron h1 {
+  font-size: 63px !important;
+  color: inherit !important;
+}
+
+.jumbotron p {
+  font-size: 21px;
+  font-weight: 200;
+}
+
+.jumbotron .main-cta a {
+  border-radius: .25rem !important;
+}
+
+p.tagline {
+  margin-bottom: 25px;
+}
+
+div.main-cta {
+  padding: 5px;
+}
+
+.account .card {
+  margin-top: 1em;
+  width: 100%;
+  min-height: 0;
+  line-height: 2em;
+}
+
+.account .card a {
+  margin-top: 1em;
+}

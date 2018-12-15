@@ -1,14 +1,14 @@
 import {
   LOG_IN,
   LOG_OUT,
-  SET_USER_NAME,
+  SET_USER_DATA,
   LOADING_CURRENT_SESSION
 } from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
   isSessionLoading: true,
-  username: ""
+  user: null
 };
 
 export default function(state = initialState, action) {
@@ -23,10 +23,10 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: false
       };
-    case SET_USER_NAME:
+    case SET_USER_DATA:
       return {
         ...state,
-        username: action.payload
+        user: action.payload
       };
     case LOADING_CURRENT_SESSION:
       return {

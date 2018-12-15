@@ -115,6 +115,7 @@ class Register extends Component {
         },
         validationData: [] //optional
       });
+      this.props.history.push("/welcome");
       console.log(signUpResponse);
     } catch (error) {
       this.setState({
