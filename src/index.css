@@ -26,6 +26,10 @@ input.weather-search {
   background-position: left 10px top 50%;
 }
 
+.white {
+  color: #fefefe !important;
+}
+
 .gray {
   color: #ababab !important;
 }

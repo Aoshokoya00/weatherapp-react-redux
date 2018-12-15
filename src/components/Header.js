@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
-import { logOut } from "../actions/authActions";
+import { logOut, setUserName } from "../actions/authActions";
 import { toggleTempScale } from "../actions/weatherActions";
 
 const Header = props => {
@@ -13,6 +13,7 @@ const Header = props => {
       const userSignOutData = await Auth.signOut();
       console.log(userSignOutData);
       props.logOut();
+      props.setUserName("");
     } catch (error) {
       console.log(error.message);
     }
@@ -29,16 +30,25 @@ const Header = props => {
         </div>
         <div className="float-right">
           <ul className="navbar-nav mr-auto">
+            {props.isAuthenticated && (
+              <li className="nav-item">
+                <a href="/account" className="nav-link white">
+                  {props.username}
+                </a>
+              </li>
+            )}
             <li className="nav-item">
               <a href="/" className="nav-link">
                 weather
               </a>
             </li>
-            <li className="nav-item">
-              <a href="/register" className="nav-link">
-                register
-              </a>
-            </li>
+            {!props.isAuthenticated && (
+              <li className="nav-item">
+                <a href="/register" className="nav-link">
+                  register
+                </a>
+              </li>
+            )}
             {props.isAuthenticated ? (
               <li className="nav-item">
                 <a href="/" onClick={handleLogOut} className="nav-link">
@@ -71,10 +81,11 @@ const Header = props => {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  celsius: state.weather.celsius
+  celsius: state.weather.celsius,
+  username: state.auth.username
 });
 
 export default connect(
   mapStateToProps,
-  { logOut, toggleTempScale }
+  { logOut, setUserName, toggleTempScale }
 )(Header);

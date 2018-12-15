@@ -1,4 +1,9 @@
-import { LOG_IN, LOG_OUT, LOADING_CURRENT_SESSION } from "./types";
+import {
+  LOG_IN,
+  LOG_OUT,
+  SET_USER_NAME,
+  LOADING_CURRENT_SESSION
+} from "./types";
 
 export const logIn = () => {
   return {
@@ -9,6 +14,13 @@ export const logIn = () => {
 export const logOut = () => {
   return {
     type: LOG_OUT
+  };
+};
+
+export const setUserName = username => {
+  return {
+    type: SET_USER_NAME,
+    payload: username
   };
 };
 

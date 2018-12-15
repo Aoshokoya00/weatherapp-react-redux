@@ -83,6 +83,9 @@ class ChangePassword extends Component {
       );
       console.log(changePasswordResponse);
     } catch (error) {
+      this.setState({
+        errors: { ...this.state.errors, cognito: error }
+      });
       console.log(error.message);
     }
   };
