@@ -5,14 +5,17 @@ import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import {
   logIn,
-  setUserName,
+  setUserData,
   loadingCurrentSession
 } from "../actions/authActions";
 import Header from "./Header";
+import Home from "./Home";
 import Register from "./Register";
 import LogIn from "./LogIn";
 import Account from "./Account";
+import Welcome from "./Welcome";
 import ChangePassword from "./ChangePassword";
+import ChangePasswordConfirmation from "./ChangePasswordConfirmation";
 import WeatherContainer from "./WeatherContainer";
 
 class RootContainer extends Component {
@@ -24,7 +27,7 @@ class RootContainer extends Component {
         const user = await Auth.currentAuthenticatedUser({
           bypassCache: false
         });
-        this.props.setUserName(user.username);
+        this.props.setUserData(user);
       } catch (error) {
         console.log(error);
       }
@@ -42,9 +45,16 @@ class RootContainer extends Component {
           <Header title="weather app" />
           <div className="container">
             <Switch>
+              <Route exact path="/home" component={Home} />
               <Route exact path="/" component={WeatherContainer} />
               <Route exact path="/weather" component={WeatherContainer} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/welcome" component={Welcome} />
+              <Route
+                exact
+                path="/changepasswordconfirmation"
+                component={ChangePasswordConfirmation}
+              />
               <Route exact path="/login" component={LogIn} />
               <Route exact path="/account" component={Account} />
               <Route exact path="/changepassword" component={ChangePassword} />
@@ -57,12 +67,13 @@ class RootContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  loadingCurrentSession: state.auth.isSessionLoading
+  loadingCurrentSession: state.auth.isSessionLoading,
+  user: state.auth.user
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { logIn, setUserName, loadingCurrentSession }
+    { logIn, setUserData, loadingCurrentSession }
   )(RootContainer)
 );

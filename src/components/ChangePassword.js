@@ -82,6 +82,7 @@ class ChangePassword extends Component {
         this.state.newpassword
       );
       console.log(changePasswordResponse);
+      this.props.history.push("/changepasswordconfirmation");
     } catch (error) {
       this.setState({
         errors: { ...this.state.errors, cognito: error }

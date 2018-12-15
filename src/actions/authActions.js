@@ -1,7 +1,7 @@
 import {
   LOG_IN,
   LOG_OUT,
-  SET_USER_NAME,
+  SET_USER_DATA,
   LOADING_CURRENT_SESSION
 } from "./types";
 
@@ -17,10 +17,10 @@ export const logOut = () => {
   };
 };
 
-export const setUserName = username => {
+export const setUserData = userdata => {
   return {
-    type: SET_USER_NAME,
-    payload: username
+    type: SET_USER_DATA,
+    payload: userdata
   };
 };
 
