@@ -15,6 +15,8 @@ import LogIn from "./LogIn";
 import Account from "./Account";
 import Welcome from "./Welcome";
 import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
+import ForgotPasswordVerification from "./ForgotPasswordVerification";
 import ChangePasswordConfirmation from "./ChangePasswordConfirmation";
 import WeatherContainer from "./WeatherContainer";
 
@@ -54,6 +56,12 @@ class RootContainer extends Component {
                 exact
                 path="/changepasswordconfirmation"
                 component={ChangePasswordConfirmation}
+              />
+              <Route exact path="/forgotpassword" component={ForgotPassword} />
+              <Route
+                exact
+                path="/forgotpasswordverification"
+                component={ForgotPasswordVerification}
               />
               <Route exact path="/login" component={LogIn} />
               <Route exact path="/account" component={Account} />
