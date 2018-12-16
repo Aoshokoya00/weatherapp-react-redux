@@ -68,7 +68,7 @@ class ForgotPasswordVerification extends Component {
         this.state.newpassword
       );
       console.log(data);
-      // success message
+      this.props.history.push("/changepasswordconfirmation");
     } catch (error) {
       this.setState({
         errors: { ...this.state.errors, cognito: error }
@@ -90,7 +90,8 @@ class ForgotPasswordVerification extends Component {
         <h2>Forgot your password?</h2>
         <p>Request succeeded!</p>
         <p>
-          Please enter the verification code sent to your email address below.
+          Please enter the verification code sent to your email address below,
+          your email address and a new password.
         </p>
         <FormErrors formerrors={this.state.errors} />
         <form
