@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
-import { logIn, setUserData } from "../actions/authActions";
 
-class LogIn extends Component {
+class ForgotPasswordVerification extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      verificationcode: "",
       email: "",
-      password: "",
+      newpassword: "",
       errors: {
         cognito: null,
         blankfield: false
@@ -18,7 +17,7 @@ class LogIn extends Component {
   }
 
   validateForm = event => {
-    const { email, password } = this.state;
+    const { verificationcode, email, newpassword } = this.state;
 
     // clear all error messages
     const inputs = document.getElementsByClassName("invalid");
@@ -35,6 +34,13 @@ class LogIn extends Component {
       }
     });
 
+    if (verificationcode === "") {
+      this.setState({
+        errors: { ...this.state.errors, blankfield: true }
+      });
+      document.getElementById("verificationcode").classList.add("invalid");
+      return;
+    }
     if (email === "") {
       this.setState({
         errors: { ...this.state.errors, blankfield: true }
@@ -42,28 +48,27 @@ class LogIn extends Component {
       document.getElementById("email").classList.add("invalid");
       return;
     }
-    if (password === "") {
+    if (newpassword === "") {
       this.setState({
         errors: { ...this.state.errors, blankfield: true }
       });
-      document.getElementById("password").classList.add("invalid");
+      document.getElementById("newpassword").classList.add("invalid");
       return;
     }
     return;
   };
 
-  handleSubmit = async event => {
+  passwordVerificationHandler = async event => {
     event.preventDefault();
     this.validateForm(event);
     try {
-      const user = await Auth.signIn(this.state.email, this.state.password);
-      this.props.logIn();
-      this.props.setUserData(user);
-      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-        this.props.history.push("/changepassword");
-      } else {
-        this.props.history.push("/");
-      }
+      const data = await Auth.forgotPasswordSubmit(
+        this.state.email,
+        this.state.verificationcode,
+        this.state.newpassword
+      );
+      console.log(data);
+      // success message
     } catch (error) {
       this.setState({
         errors: { ...this.state.errors, cognito: error }
@@ -82,9 +87,28 @@ class LogIn extends Component {
   render() {
     return (
       <div className="mt-5">
-        <h2>Log in</h2>
+        <h2>Forgot your password?</h2>
+        <p>Request succeeded!</p>
+        <p>
+          Please enter the verification code sent to your email address below.
+        </p>
         <FormErrors formerrors={this.state.errors} />
-        <form className="col-6 mt-4" onSubmit={this.handleSubmit}>
+        <form
+          className="col-6 mt-4"
+          onSubmit={this.passwordVerificationHandler}
+        >
+          <div className="form-group">
+            <label htmlFor="verificationcode">Verification code</label>
+            <input
+              type="text"
+              className="form-control"
+              id="verificationcode"
+              aria-describedby="verificationCodeHelp"
+              placeholder="Enter verification code"
+              value={this.state.verificationcode}
+              onChange={this.onInputChange}
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
             <input
@@ -98,21 +122,18 @@ class LogIn extends Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="newpassword">New password</label>
             <input
               type="password"
               className="form-control"
-              id="password"
-              placeholder="Password"
-              value={this.state.password}
+              id="newpassword"
+              placeholder="New password"
+              value={this.state.newpassword}
               onChange={this.onInputChange}
             />
           </div>
-          <p>
-            <a href="/forgotpassword">Forgot password?</a>
-          </p>
           <button type="submit" className="btn btn-primary">
-            Log in
+            Submit
           </button>
         </form>
       </div>
@@ -120,11 +141,4 @@ class LogIn extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(
-  mapStateToProps,
-  { logIn, setUserData }
-)(LogIn);
+export default ForgotPasswordVerification;
