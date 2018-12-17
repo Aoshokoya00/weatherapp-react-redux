@@ -11,7 +11,7 @@ class Welcome extends Component {
             We sent you an email - please check it to confirm your registration.
           </p>
           <div className="main-cta mt-5">
-            <a class="btn btn-primary btn-lg" href="/" role="button">
+            <a className="btn btn-primary btn-lg" href="/" role="button">
               get weather
             </a>
           </div>
