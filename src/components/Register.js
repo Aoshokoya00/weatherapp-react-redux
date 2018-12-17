@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
-import Validate from "./FormValidation";
+import Validate from "../utility/FormValidation";
 
 class Register extends Component {
   state = {
@@ -33,7 +33,7 @@ class Register extends Component {
 
     // Form validation
     this.clearState();
-    const error = Validate(event);
+    const error = Validate(event, this.state);
     if (error) {
       this.setState({
         errors: { ...this.state.errors, ...error }

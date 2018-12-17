@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
-import Validate from "./FormValidation";
+import Validate from "../utility/FormValidation";
 import { logIn, setUserData } from "../actions/authActions";
 
 class LogIn extends Component {

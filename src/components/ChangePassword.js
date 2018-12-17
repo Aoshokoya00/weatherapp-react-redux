@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
-import Validate from "./FormValidation";
+import Validate from "../utility/FormValidation";
 
 class ChangePassword extends Component {
   constructor(props) {
