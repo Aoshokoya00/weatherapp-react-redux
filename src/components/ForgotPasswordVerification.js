@@ -65,8 +65,7 @@ class ForgotPasswordVerification extends Component {
   render() {
     return (
       <div className="mt-5">
-        <h2>Forgot your password?</h2>
-        <p>Request succeeded!</p>
+        <h2>Set new password</h2>
         <p>
           Please enter the verification code sent to your email address below,
           your email address and a new password.

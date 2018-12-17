@@ -11,7 +11,11 @@ class Home extends Component {
           </p>
 
           <div className="main-cta">
-            <a class="btn btn-primary btn-lg" href="/register" role="button">
+            <a
+              className="btn btn-primary btn-lg"
+              href="/register"
+              role="button"
+            >
               Sign up
             </a>
           </div>
