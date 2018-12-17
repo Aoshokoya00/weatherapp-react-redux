@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 class ChangePassword extends Component {
   constructor(props) {
@@ -16,63 +17,28 @@ class ChangePassword extends Component {
     };
   }
 
-  validateForm = event => {
-    const { oldpassword, newpassword, confirmpassword } = this.state;
-
-    // clear all error messages
-    const inputs = document.getElementsByClassName("invalid");
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].classList.contains("error")) {
-        inputs[i].classList.remove("invalid");
-      }
-    }
-
+  clearState = () => {
     this.setState({
       errors: {
-        blankfield: false,
-        passwordmatch: false
+        cognito: null,
+        blankfield: false
       }
     });
-
-    if (oldpassword === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("oldpassword").classList.add("invalid");
-      return;
-    }
-    if (newpassword === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("newpassword").classList.add("invalid");
-      return;
-    }
-    if (confirmpassword === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("confirmpassword").classList.add("invalid");
-      return;
-    }
-    if (newpassword !== confirmpassword) {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          passwordmatch: true
-        }
-      });
-      document.getElementById("newpassword").classList.add("invalid");
-      document.getElementById("confirmpassword").classList.add("invalid");
-      return;
-    }
-    return;
   };
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.validateForm(event);
 
+    // Form validation
+    this.clearState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // Change password submit
     try {
       const user = await Auth.currentAuthenticatedUser();
       console.log(user);

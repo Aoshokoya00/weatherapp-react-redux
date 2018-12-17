@@ -15,7 +15,7 @@ const Account = props => {
               <li>Email: {props.user.attributes.email}</li>
               <li>
                 <a
-                  class="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm"
                   href="/changepassword"
                   role="button"
                 >

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 class Register extends Component {
   state = {
@@ -17,24 +18,7 @@ class Register extends Component {
     }
   };
 
-  validateForm = event => {
-    const {
-      username,
-      firstname,
-      lastname,
-      email,
-      password,
-      confirmpassword
-    } = this.state;
-
-    // clear all error messages
-    const inputs = document.getElementsByClassName("invalid");
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].classList.contains("error")) {
-        inputs[i].classList.remove("invalid");
-      }
-    }
-
+  clearState = () => {
     this.setState({
       errors: {
         cognito: null,
@@ -42,65 +26,19 @@ class Register extends Component {
         passwordmatch: false
       }
     });
-
-    if (username === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("username").classList.add("invalid");
-      return;
-    }
-    if (firstname === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("firstname").classList.add("invalid");
-      return;
-    }
-    if (lastname === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("lastname").classList.add("invalid");
-      return;
-    }
-    if (email === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("email").classList.add("invalid");
-      return;
-    }
-    if (password === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("password").classList.add("invalid");
-      return;
-    }
-    if (confirmpassword === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("confirmpassword").classList.add("invalid");
-      return;
-    }
-    if (password !== confirmpassword) {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          passwordmatch: true
-        }
-      });
-      document.getElementById("password").classList.add("invalid");
-      document.getElementById("confirmpassword").classList.add("invalid");
-      return;
-    }
   };
 
   handleClick = async event => {
     event.preventDefault();
-    this.validateForm(event);
+
+    // Form validation
+    this.clearState();
+    const error = Validate(event);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
 
     const { username, firstname, lastname, email, password } = this.state;
 

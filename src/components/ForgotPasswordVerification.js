@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 class ForgotPasswordVerification extends Component {
   constructor(props) {
@@ -16,51 +17,28 @@ class ForgotPasswordVerification extends Component {
     };
   }
 
-  validateForm = event => {
-    const { verificationcode, email, newpassword } = this.state;
-
-    // clear all error messages
-    const inputs = document.getElementsByClassName("invalid");
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].classList.contains("error")) {
-        inputs[i].classList.remove("invalid");
-      }
-    }
-
+  clearState = () => {
     this.setState({
       errors: {
         cognito: null,
         blankfield: false
       }
     });
-
-    if (verificationcode === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("verificationcode").classList.add("invalid");
-      return;
-    }
-    if (email === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("email").classList.add("invalid");
-      return;
-    }
-    if (newpassword === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("newpassword").classList.add("invalid");
-      return;
-    }
-    return;
   };
 
   passwordVerificationHandler = async event => {
     event.preventDefault();
-    this.validateForm(event);
+
+    // Form validation
+    this.clearState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // Forgot password verify
     try {
       const data = await Auth.forgotPasswordSubmit(
         this.state.email,
