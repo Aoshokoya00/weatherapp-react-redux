@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import Validate from "../utility/FormValidation";
 import { logIn, setUserData } from "../actions/authActions";
 
 class LogIn extends Component {
@@ -17,44 +18,28 @@ class LogIn extends Component {
     };
   }
 
-  validateForm = event => {
-    const { email, password } = this.state;
-
-    // clear all error messages
-    const inputs = document.getElementsByClassName("invalid");
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].classList.contains("error")) {
-        inputs[i].classList.remove("invalid");
-      }
-    }
-
+  clearState = () => {
     this.setState({
       errors: {
         cognito: null,
         blankfield: false
       }
     });
-
-    if (email === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("email").classList.add("invalid");
-      return;
-    }
-    if (password === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("password").classList.add("invalid");
-      return;
-    }
-    return;
   };
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.validateForm(event);
+
+    // Form validation
+    this.clearState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // Sign in
     try {
       const user = await Auth.signIn(this.state.email, this.state.password);
       this.props.logIn();

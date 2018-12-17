@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import FormErrors from "./FormErrors";
+import Validate from "../utility/FormValidation";
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -14,37 +15,28 @@ class ForgotPassword extends Component {
     };
   }
 
-  validateForm = event => {
-    const { email } = this.state;
-
-    // clear all error messages
-    const inputs = document.getElementsByClassName("invalid");
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].classList.contains("error")) {
-        inputs[i].classList.remove("invalid");
-      }
-    }
-
+  clearState = () => {
     this.setState({
       errors: {
         cognito: null,
         blankfield: false
       }
     });
-
-    if (email === "") {
-      this.setState({
-        errors: { ...this.state.errors, blankfield: true }
-      });
-      document.getElementById("email").classList.add("invalid");
-      return;
-    }
-    return;
   };
 
   forgotPasswordHandler = async event => {
     event.preventDefault();
-    this.validateForm(event);
+
+    // Form validation
+    this.clearState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // Forgot password submit
     try {
       const data = await Auth.forgotPassword(this.state.email);
       console.log(data);
